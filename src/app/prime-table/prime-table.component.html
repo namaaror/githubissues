@@ -1,0 +1,30 @@
+<div *ngIf="tableData?.length > 0" style="margin: 20px">
+    <p-table [columns]="cols" [value]="tableData" [paginator]="isPagination" [rows]="rows">
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th *ngFor="let col of cols" style="text-align:center">
+                    {{col.header}}
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr>
+                <ng-container *ngFor="let col of columns">
+                    <td *ngIf="col.field === rowData['anchor']; else no_anchor"
+                        [id]="col.field + '.' + rowData[col.field]" style="text-align:center"><a
+                            href="{{ rowData[col.field] }}" target="_blank">
+                            {{ rowData[col.field] }}
+                        </a>
+                    </td>
+                    <ng-template #no_anchor>
+                        <td [id]="col.field + '.' + rowData[col.field]" style="text-align:center">
+                            {{ rowData[col.field] }}
+                        </td>
+                    </ng-template>
+                </ng-container>
+            </tr>
+        </ng-template>
+    </p-table>
+    <button *ngIf="showBackBtn" type="button" class="btn btn--primary btn--default btn--small"
+        (click)="backClicked.emit();" style="margin-top: 10px">Back</button>
+</div>
